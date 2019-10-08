@@ -1,38 +1,123 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class AudioSplitter
+namespace RhythmDance
 {
-    public static AudioClip[] BeatSplit(AudioClip clip, int beatSplit)
+    [Serializable]
+    public struct PlayerNote
     {
-        AudioClip[] splitClips = new AudioClip[beatSplit];
-        float beatLength = clip.length / beatSplit;
-        for(int i = 0; i < beatSplit; i++)
-        {
-            splitClips[i] = MakeSubclip(clip, i * beatLength, (i + 1) * beatLength);
-        }
-        return splitClips;
+        public int note;
+        public float position;
     }
-    /**
-   * Creates a sub clip from an audio clip based off of the start time
-   * and the stop time. The new clip will have the same frequency as
-   * the original.
-   */
-    private static AudioClip MakeSubclip(AudioClip clip, float start, float stop)
+
+    [Serializable]
+    public enum Instruments
     {
-        /* Create a new audio clip */
-        int frequency = clip.frequency;
-        float timeLength = stop - start;
-        int samplesLength = (int)(frequency * timeLength);
-        AudioClip newClip = AudioClip.Create(clip.name + "-sub", samplesLength, 1, frequency, false);
-        /* Create a temporary buffer for the samples */
-        float[] data = new float[samplesLength];
-        /* Get the data from the original clip */
-        clip.GetData(data, (int)(frequency * start));
-        /* Transfer the data to the new clip */
-        newClip.SetData(data, 0);
-        /* Return the sub clip */
-        return newClip;
+        RainDrop,
+        SoftBass
+    }
+
+    [Serializable]
+    public class Instrument
+    {
+        [SerializeField]
+        private AudioClip m_Source;
+        [SerializeField]
+        public AudioClip Source
+        {
+            get { return m_Source; }
+            set
+            {
+                m_Source = value;
+                Notes = AudioSplitter.BeatSplit(m_Source, m_NumberNotes);
+            }
+        }
+        [SerializeField]
+        private int m_NumberNotes;
+        [SerializeField]
+        public int NumberNotes
+        {
+            get { return m_NumberNotes; }
+            set
+            {
+                m_NumberNotes = value;
+                Notes = AudioSplitter.BeatSplit(m_Source, m_NumberNotes);
+            }
+        }
+        public Instruments Name;
+        [SerializeField]
+        public AudioClip[] Notes { get; private set; }
+
+        Instrument(AudioClip source, int numNotes, Instruments name)
+        {
+            Name = name;
+            NumberNotes = numNotes;
+            Source = source;
+
+            Notes = AudioSplitter.BeatSplit(Source, NumberNotes);
+        }
+
+        public void SetNotes()
+        {
+            Notes = AudioSplitter.BeatSplit(Source, NumberNotes);
+        }
+    }
+
+    [Serializable]
+    public static class AudioSplitter
+    {
+        public static AudioClip[] BeatSplit(AudioClip clip, int beatSplit)
+        {
+            AudioClip[] splitClips = new AudioClip[beatSplit];
+            float beatLength = clip.length / beatSplit;
+            for (int i = 0; i < beatSplit; i++)
+            {
+                splitClips[i] = MakeSubclip(clip, i * beatLength, (i + 1) * beatLength);
+            }
+            return splitClips;
+        }
+        /**
+       * Creates a sub clip from an audio clip based off of the start time
+       * and the stop time. The new clip will have the same frequency as
+       * the original.
+       */
+        private static AudioClip MakeSubclip(AudioClip clip, float start, float stop)
+        {
+            /* Create a new audio clip */
+            int frequency = clip.frequency;
+            float timeLength = stop - start;
+            int samplesLength = (int)(frequency * timeLength);
+            AudioClip newClip = AudioClip.Create(clip.name + "-sub", samplesLength, 1, frequency, false);
+            /* Create a temporary buffer for the samples */
+            float[] data = new float[samplesLength];
+            /* Get the data from the original clip */
+            clip.GetData(data, (int)(frequency * start));
+            /* Transfer the data to the new clip */
+            newClip.SetData(data, 0);
+            /* Return the sub clip */
+            return newClip;
+        }
+
+        public static AudioClip MakeClipFromPlayer(AudioClip[] notes, List<PlayerNote> songNotes, float recordTime)
+        {
+            int frequency = notes[0].frequency;
+            int samplesLength = (int)(frequency * recordTime);
+            AudioClip playerClip = AudioClip.Create(notes[0].name + "-player", samplesLength, 1, frequency, false);
+            foreach(var songNote in songNotes)
+            {
+                playerClip = AddClipData(playerClip, notes[songNote.note], songNote.position, frequency);
+            }
+            return playerClip;
+        }
+
+        public static AudioClip AddClipData(AudioClip song, AudioClip note, float position, int frequency)
+        {
+            float[] data = new float[(int)(note.length * frequency)];
+            note.GetData(data, 0);
+            song.SetData(data, (int)(position * frequency));
+            return song;
+        }
     }
 }
