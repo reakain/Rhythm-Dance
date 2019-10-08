@@ -1,0 +1,20 @@
+{
+    "songs": [
+        {
+            "title": "Title",
+            "bpm": "150",
+            "source": "songpath.wav",
+            "offset": "0",
+            "player_beats": [
+                {
+                    "note": "1",
+                    "position": "0.3567"
+                },
+                {
+                    "note": "4",
+                    "position": "0.6567"
+                }
+            ]
+        }
+    ]
+}
