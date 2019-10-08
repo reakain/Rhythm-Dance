@@ -1,10 +1,11 @@
 {
     "songs": [
         {
-            "title": "Title",
+            "title": "Willowwisp",
             "bpm": "150",
-            "source": "songfilename",
-            "offset": "0",
+            "source": "Willowwisp",
+          "offset": "0",
+          "player_instrument": "Fingered Bass",
             "player_beats": [
                 {
                     "note": "1",

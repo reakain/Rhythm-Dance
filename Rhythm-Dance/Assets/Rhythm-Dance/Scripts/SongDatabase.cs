@@ -45,6 +45,7 @@ namespace RhythmDance
         public int bpm = 0;
         public string source = "";
         public float offset = 0.0f;
+        public string player_instrument = "";
         public PlayerBeat[] player_beats;
     }
 

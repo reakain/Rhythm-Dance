@@ -5,10 +5,15 @@
             "source": "BassChord",
             "notes": "16"
         },
-        {
-            "name": "Raindrop",
-            "source": "RaindropChord",
-            "notes": "16"
-        }
+      {
+        "name": "Raindrop",
+        "source": "RaindropChord",
+        "notes": "16"
+      },
+      {
+        "name": "Ukelele",
+        "source": "UkeleleChord",
+        "notes": "16"
+      }
     ]
 }
