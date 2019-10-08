@@ -1,4 +1,7 @@
 # Rhythm Dance
+Unity build out for rhythm based dance mini-game and tune-maker. 
+
+## Versions
 
 ## Music Source
  - [Metronome-80](kookyprod.free.fr/bruitages/metronome80.wav)
