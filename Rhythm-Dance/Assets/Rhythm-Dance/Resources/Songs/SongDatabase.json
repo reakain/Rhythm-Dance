@@ -3,7 +3,7 @@
         {
             "title": "Title",
             "bpm": "150",
-            "source": "songpath.wav",
+            "source": "songfilename",
             "offset": "0",
             "player_beats": [
                 {

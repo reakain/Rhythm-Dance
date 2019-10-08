@@ -9,7 +9,7 @@ namespace RhythmDance
     [Serializable]
     public static class SongLibrary
     {
-        public static SongDatabase songLibrary = SongDatabase.CreateFromJSON(Resources.Load<TextAsset>("Songs/SongDatabase.json").text);
+        public static SongDatabase songLibrary = SongDatabase.CreateFromJSON(Resources.Load<TextAsset>("Songs/SongDatabase").text);
 
         public static Song GetSongInfo(string songTitle)
         {
@@ -31,7 +31,6 @@ namespace RhythmDance
     [Serializable]
     public class SongDatabase
     {
-        //public int count;
         public Song[] songs;
         public static SongDatabase CreateFromJSON(string jsonString)
         {

@@ -68,8 +68,7 @@ namespace RhythmDance
         void Awake()
         {
             instance = this;
-            playerInstrument.SetNotes();
-            //playerSource.
+            playerInstrument = InstrumentLibrary.GetInstrumentFromName("Fingered Bass");
         }
 
         void ChangeInstrument()
@@ -115,7 +114,7 @@ namespace RhythmDance
                 StopRecord();
             }
 
-            if (currentState == ConductorState.Play)
+            if (currentState == ConductorState.Play || currentState == ConductorState.Playback)
             {
                 //determine how many beats since the song started
                 songPositionInBeats = songPosition / secPerBeat;

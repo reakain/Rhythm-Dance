@@ -19,51 +19,7 @@ namespace RhythmDance
         SoftBass
     }
 
-    [Serializable]
-    public class Instrument
-    {
-        [SerializeField]
-        private AudioClip m_Source;
-        [SerializeField]
-        public AudioClip Source
-        {
-            get { return m_Source; }
-            set
-            {
-                m_Source = value;
-                Notes = AudioSplitter.BeatSplit(m_Source, m_NumberNotes);
-            }
-        }
-        [SerializeField]
-        private int m_NumberNotes;
-        [SerializeField]
-        public int NumberNotes
-        {
-            get { return m_NumberNotes; }
-            set
-            {
-                m_NumberNotes = value;
-                Notes = AudioSplitter.BeatSplit(m_Source, m_NumberNotes);
-            }
-        }
-        public Instruments Name;
-        [SerializeField]
-        public AudioClip[] Notes { get; private set; }
-
-        Instrument(AudioClip source, int numNotes, Instruments name)
-        {
-            Name = name;
-            NumberNotes = numNotes;
-            Source = source;
-
-            Notes = AudioSplitter.BeatSplit(Source, NumberNotes);
-        }
-
-        public void SetNotes()
-        {
-            Notes = AudioSplitter.BeatSplit(Source, NumberNotes);
-        }
-    }
+    
 
     [Serializable]
     public static class AudioSplitter
