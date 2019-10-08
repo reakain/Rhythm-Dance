@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// OBSOLETE
 namespace RhythmDance
 {
     public class BeatPlayer : MonoBehaviour

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Source: http://answers.unity.com/answers/1383912/view.html
+
+// OBSOLETE
 public class DigitalPiano : MonoBehaviour
 {
     public AudioSource audio;

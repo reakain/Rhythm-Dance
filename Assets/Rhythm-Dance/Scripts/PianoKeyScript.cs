@@ -4,6 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
+// Source: https://github.com/ukushu/UnityPianoGame
+
+// OBSOLETE
 public class PianoKeyScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     private bool _mustBeNamedOnStart = true;
     private float _speedOfSoundAttenuation = 1.0f;
