@@ -17,7 +17,7 @@ namespace RhythmDance
         // Start is called before the first frame update
         void Start()
         {
-
+            ChangeScoreLabel();
         }
 
         // Update is called once per frame
