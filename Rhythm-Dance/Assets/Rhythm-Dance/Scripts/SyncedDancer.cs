@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RhythmDance
 {
-    public class SyncedWisp : MonoBehaviour
+    public class SyncedDancer : MonoBehaviour
     {
         //The animator controller attached to this GameObject
         public Animator animator;
@@ -26,6 +26,8 @@ namespace RhythmDance
         //The current relative position of the song within the loop measured between 0 and 1.
         public float loopPositionInAnalog;
 
+        public string currentStateName = "IdleBeat";
+
         // Start is called before the first frame update
         void Start()
         {
@@ -42,11 +44,13 @@ namespace RhythmDance
         private void OnEnable()
         {
             Conductor.ConductorStateChange += delegate { ChangeState(); };
+            Conductor.PosePressed += delegate { PoseChanged(); };
         }
 
         private void OnDisable()
         {
             Conductor.ConductorStateChange -= delegate { ChangeState(); };
+            Conductor.PosePressed -= delegate { PoseChanged(); };
         }
 
         void ChangeState()
@@ -54,18 +58,31 @@ namespace RhythmDance
             if (Conductor.instance.currentState == Conductor.ConductorState.Stop)
             {
                 animator.SetBool("PlayBeat", false);
-                //animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-                //Convert the current state name to an integer hash for identification
-                //currentState = animatorStateInfo.fullPathHash;
             }
             else
             {
                 animator.SetBool("PlayBeat", true);
-                //animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            }
+        }
 
-                //Convert the current state name to an integer hash for identification
-                //currentState = animatorStateInfo.fullPathHash;
+        void PoseChanged()
+        {
+            switch(Conductor.instance.currentPose)
+            {
+                case 0:
+                    animator.SetTrigger("Pose1Press");
+                    break;
+                case 1:
+                    animator.SetTrigger("Pose2Press");
+                    break;
+                case 2:
+                    animator.SetTrigger("Pose3Press");
+                    break;
+                case 3:
+                    animator.SetTrigger("Pose4Press");
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -82,8 +99,9 @@ namespace RhythmDance
 
                 loopPositionInAnalog = loopPositionInBeats / beatsPerLoop;
 
+
                 //Start playing the current animation from wherever the current conductor loop is
-                animator.Play("WispHop", -1, (loopPositionInAnalog));
+                animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, -1, (loopPositionInAnalog));
                 //Set the speed to 0 so it will only change frames when you next update it
                 animator.speed = 0;
             }

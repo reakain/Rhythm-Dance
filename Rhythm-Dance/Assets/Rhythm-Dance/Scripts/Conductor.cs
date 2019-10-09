@@ -80,6 +80,12 @@ namespace RhythmDance
         public delegate void ScoreChangeEvent();
         public static event ScoreChangeEvent ScoreChange;
 
+
+        public delegate void PosePressEvent();
+        public static event PosePressEvent PosePressed;
+
+        public int currentPose = -1;
+
         void Awake()
         {
             instance = this;
@@ -137,7 +143,7 @@ namespace RhythmDance
                 StopRecord();
             }
 
-            if (currentState == ConductorState.Play || currentState == ConductorState.Playback)
+            if (currentState != ConductorState.Stop)
             {
                 //determine how many beats since the song started
                 songPositionInBeats = songPosition / secPerBeat;
@@ -156,6 +162,7 @@ namespace RhythmDance
         int GetPlayerInput()
         {
             int note = -1; // invalid value to detect when note is pressed
+            int pose = -1;
             switch (currentState)
             {
                 case ConductorState.Stop:
@@ -167,13 +174,25 @@ namespace RhythmDance
                     else
                     {
                         if (Input.GetButtonDown(KeysInput.instance.pose1Key))
-                        { note = KeysInput.instance.poseKeyNotes[0]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[0];
+                            pose = 0;
+                        }
                         if (Input.GetButtonDown(KeysInput.instance.pose2Key))
-                        { note = KeysInput.instance.poseKeyNotes[1]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[1];
+                            pose = 1;
+                        }
                         if (Input.GetButtonDown(KeysInput.instance.pose3Key))
-                        { note = KeysInput.instance.poseKeyNotes[2]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[2];
+                            pose = 2;
+                        }
                         if (Input.GetButtonDown(KeysInput.instance.pose4Key))
-                        { note = KeysInput.instance.poseKeyNotes[3]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[3];
+                            pose = 3;
+                        }
                     }
                     break;
                 case ConductorState.Playback:
@@ -184,17 +203,34 @@ namespace RhythmDance
                     else
                     {
                         if (Input.GetButtonDown(KeysInput.instance.pose1Key))
-                        { note = KeysInput.instance.poseKeyNotes[0]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[0];
+                            pose = 0;
+                        }
                         if (Input.GetButtonDown(KeysInput.instance.pose2Key))
-                        { note = KeysInput.instance.poseKeyNotes[1]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[1];
+                            pose = 1;
+                        }
                         if (Input.GetButtonDown(KeysInput.instance.pose3Key))
-                        { note = KeysInput.instance.poseKeyNotes[2]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[2];
+                            pose = 2;
+                        }
                         if (Input.GetButtonDown(KeysInput.instance.pose4Key))
-                        { note = KeysInput.instance.poseKeyNotes[3]; }
+                        {
+                            note = KeysInput.instance.poseKeyNotes[3];
+                            pose = 3;
+                        }
                     }
                     break;
                 default:
                     break;
+            }
+            currentPose = pose;
+            if (pose >= 0 && PosePressed != null)
+            {
+                PosePressed();
             }
             return note;
         }
