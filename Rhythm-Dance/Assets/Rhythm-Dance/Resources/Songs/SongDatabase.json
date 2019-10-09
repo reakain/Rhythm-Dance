@@ -8,31 +8,59 @@
       "player_instrument": "Fingered Bass",
       "keys": [
         {
-          "index": "12",
+          "index": "0",
           "move": "0"
         },
         {
-          "index": "13",
+          "index": "2",
           "move": "1"
         },
         {
-          "index": "14",
+          "index": "4",
           "move": "2"
         },
         {
-          "index": "15",
+          "index": "6",
           "move": "3"
         }
       ],
         "player_beats": [
             {
-              "note": "13",
-                "position": "0.3567"
+              "note": "0",
+                "position": "0.0"
               },
             {
-                "note": "15",
-                "position": "0.6567"
-            }
+                "note": "0",
+                "position": "1.0"
+            },
+            {
+              "note": "0",
+              "position": "2.0"
+          },
+          {
+            "note": "0",
+            "position": "3.0"
+          },
+          {
+            "note": "0",
+            "position": "4.0"
+          },
+          {
+            "note": "0",
+            "position": "5.0"
+          },
+          {
+            "note": "0",
+            "position": "6.0"
+          },
+          {
+            "note": "0",
+            "position": "7.0"
+          },
+          {
+            "note": "0",
+            "position": "8.0"
+          }
         ]
     },
         {

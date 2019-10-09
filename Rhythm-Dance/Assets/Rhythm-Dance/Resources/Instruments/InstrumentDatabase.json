@@ -1,19 +1,19 @@
 {
-    "instruments": [
-        {
-            "name": "Fingered Bass",
-            "source": "BassChord",
-            "notes": "16"
-        },
-      {
-        "name": "Raindrop",
-        "source": "RaindropChord",
-        "notes": "16"
-      },
-      {
-        "name": "Ukelele",
-        "source": "UkeleleChord",
-        "notes": "16"
-      }
-    ]
+  "instruments": [
+    {
+      "name": "Fingered Bass",
+      "source": "BassChord",
+      "notes": "16"
+    },
+    {
+      "name": "Raindrop",
+      "source": "RaindropChord",
+      "notes": "16"
+    },
+    {
+      "name": "Ukelele",
+      "source": "UkeleleChord",
+      "notes": "16"
+    }
+  ]
 }
