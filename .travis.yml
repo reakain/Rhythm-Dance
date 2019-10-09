@@ -31,7 +31,7 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
+  api_key: $GITHUB_OAUTH_TOKEN
   file: $DEPLOY_UNITYPACKAGE
   skip_cleanup: true
   overwrite: true

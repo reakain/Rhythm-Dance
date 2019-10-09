@@ -1,5 +1,5 @@
 # Rhythm Dance
-[![Build Status](https://api.travis-ci.com/reakain/Rhythm-Dance.svg?branch=master)](https://travis-ci.org/reakain/Rhythm-Dance)
+[![Build Status](https://api.travis-ci.com/reakain/Rhythm-Dance.svg?branch=master)](https://travis-ci.com/reakain/Rhythm-Dance)
 [![unity version](https://img.shields.io/badge/unity%20version-2019.1.14f1-green.svg)]()
 Unity build out for rhythm based dance mini-game and tune-maker. 
 
