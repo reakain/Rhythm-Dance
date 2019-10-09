@@ -53,8 +53,62 @@ namespace RhythmDance
     [Serializable]
     public class PlayerBeat
     {
-        public int pose;
+        public int note;
         public float position = 0.0f;
+    }
+
+    [Serializable]
+    public class TrackerBeat : PlayerBeat
+    {
+        public bool hasPassed { get; private set; }
+        public float score { get; private set; }
+
+        public TrackerBeat(int beatNote, float beatPosition)
+        {
+            note = beatNote;
+            position = beatPosition;
+            hasPassed = false;
+            score = 0.0f;
+        }
+
+        public TrackerBeat(PlayerBeat beat)
+        {
+            note = beat.note;
+            position = beat.position;
+            hasPassed = false;
+            score = 0.0f;
+        }
+
+        public bool IsPressed(int poseButton, float songPosition, float pressRange)
+        {
+            var posDif = Math.Abs(position - songPosition);
+            if (poseButton == note && posDif < pressRange)
+            {
+                score = posDif;
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsPassed(float songPosition, float pressRange)
+        {
+            var posDif = position - songPosition;
+            if (posDif < -pressRange)
+            {
+                hasPassed = true;
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsPressedOrPassed(int poseButton, float songPosition, float pressRange)
+        {
+            bool presspass = false;
+            presspass = IsPressed(poseButton, songPosition, pressRange);
+            presspass = (presspass || IsPassed(songPosition, pressRange)) ? true : false;
+
+            return presspass;
+        }
     }
 
     [Serializable]

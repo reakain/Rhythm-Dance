@@ -26,11 +26,11 @@
           ],
             "player_beats": [
                 {
-                  "pose": "0",
+                  "note": "13",
                     "position": "0.3567"
                   },
                 {
-                    "pose": "3",
+                    "note": "15",
                     "position": "0.6567"
                 }
             ]

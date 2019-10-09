@@ -69,6 +69,17 @@ namespace RhythmDance
         // Instruments
         public Instrument playerInstrument;
 
+        public float bestTolerance = 0.1f;
+        public float goodTolerane = 0.5f;
+        public float mehTolerance = 0.9f;
+
+        //public TrackerBeat[] trackerBeats;
+        public Queue<TrackerBeat> trackerBeats;
+
+        public float playScore = 0.0f;
+        public delegate void ScoreChangeEvent();
+        public static event ScoreChangeEvent ScoreChange;
+
         void Awake()
         {
             instance = this;
@@ -140,10 +151,7 @@ namespace RhythmDance
             }
         }
 
-        void CheckNoteBeat(int note)
-        {
-
-        }
+        
 
         int GetPlayerInput()
         {
@@ -198,6 +206,8 @@ namespace RhythmDance
 
             StartConducting();
 
+            playScore = 0.0f;
+
             //Start the music
             musicSource.Play();
 
@@ -248,6 +258,33 @@ namespace RhythmDance
             dspSongTime = (float)AudioSettings.dspTime;
         }
 
-        
+        public void SetTrackerBeats(PlayerBeat[] songBeats)
+        {
+            trackerBeats = new Queue<TrackerBeat>();
+            TrackerBeat[] temp = new TrackerBeat[songBeats.Length];
+            foreach(var songBeat in songBeats)
+            {
+                trackerBeats.Enqueue(new TrackerBeat(songBeat));
+            }
+        }
+
+        void CheckNoteBeat(int note)
+        {
+            int i = 0;
+            while(i < trackerBeats.Count && trackerBeats.Peek().IsPressedOrPassed(note, songPosition, mehTolerance))
+            {
+                AddToScore(trackerBeats.Dequeue().score);
+                i++;
+            }
+        }
+
+        void AddToScore(float scoreAdd)
+        {
+            playScore += scoreAdd;
+            if (ScoreChange != null)
+            {
+                ScoreChange();
+            }
+        }
     }
 }

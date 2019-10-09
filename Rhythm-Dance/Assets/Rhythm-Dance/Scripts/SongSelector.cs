@@ -29,6 +29,8 @@ namespace RhythmDance
             Conductor.instance.firstBeatOffset = currentSong.offset;
             Conductor.instance.playerInstrument = InstrumentLibrary.GetInstrumentFromName(currentSong.player_instrument);
             KeysInput.instance.SetKeys(currentSong.keys);
+            Conductor.instance.SetTrackerBeats(currentSong.player_beats);
+            
         }
 
         // Update is called once per frame
