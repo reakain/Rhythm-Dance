@@ -206,7 +206,7 @@ namespace RhythmDance
 
             StartConducting();
 
-            playScore = 0.0f;
+            ChangeScore(0.0f);
 
             //Start the music
             musicSource.Play();
@@ -274,6 +274,8 @@ namespace RhythmDance
             while(i < trackerBeats.Count && trackerBeats.Peek().IsPressedOrPassed(note, songPosition, mehTolerance))
             {
                 AddToScore(trackerBeats.Dequeue().score);
+
+
                 i++;
             }
         }
@@ -281,6 +283,15 @@ namespace RhythmDance
         void AddToScore(float scoreAdd)
         {
             playScore += scoreAdd;
+            if (ScoreChange != null)
+            {
+                ScoreChange();
+            }
+        }
+
+        void ChangeScore(float score)
+        {
+            playScore = score;
             if (ScoreChange != null)
             {
                 ScoreChange();

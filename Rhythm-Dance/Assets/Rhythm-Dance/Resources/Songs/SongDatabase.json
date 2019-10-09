@@ -1,5 +1,40 @@
 {
     "songs": [
+      {
+        "title": "Metronome",
+        "bpm": "80",
+        "source": "metronome80",
+      "offset": "0.2",
+      "player_instrument": "Fingered Bass",
+      "keys": [
+        {
+          "index": "12",
+          "move": "0"
+        },
+        {
+          "index": "13",
+          "move": "1"
+        },
+        {
+          "index": "14",
+          "move": "2"
+        },
+        {
+          "index": "15",
+          "move": "3"
+        }
+      ],
+        "player_beats": [
+            {
+              "note": "13",
+                "position": "0.3567"
+              },
+            {
+                "note": "15",
+                "position": "0.6567"
+            }
+        ]
+    },
         {
             "title": "Willowwisp",
             "bpm": "150",
