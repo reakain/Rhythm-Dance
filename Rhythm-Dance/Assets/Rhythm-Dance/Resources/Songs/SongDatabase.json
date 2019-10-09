@@ -6,13 +6,31 @@
             "source": "Willowwisp",
           "offset": "0",
           "player_instrument": "Fingered Bass",
+          "keys": [
+            {
+              "index": "12",
+              "move": "0"
+            },
+            {
+              "index": "13",
+              "move": "1"
+            },
+            {
+              "index": "14",
+              "move": "2"
+            },
+            {
+              "index": "15",
+              "move": "3"
+            }
+          ],
             "player_beats": [
                 {
-                    "note": "1",
+                  "pose": "0",
                     "position": "0.3567"
-                },
+                  },
                 {
-                    "note": "4",
+                    "pose": "3",
                     "position": "0.6567"
                 }
             ]

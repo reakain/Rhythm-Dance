@@ -28,17 +28,18 @@ namespace RhythmDance
             Conductor.instance.songBpm = currentSong.bpm;
             Conductor.instance.firstBeatOffset = currentSong.offset;
             Conductor.instance.playerInstrument = InstrumentLibrary.GetInstrumentFromName(currentSong.player_instrument);
+            KeysInput.instance.SetKeys(currentSong.keys);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown("up"))
+            if (KeysInput.instance.upButton)
             {
                 currentSongNum -= 1;
                 UpdateSong();
             }
-            if (Input.GetKeyDown("down"))
+            if (KeysInput.instance.downButton)
             {
                 currentSongNum += 1;
                 UpdateSong();

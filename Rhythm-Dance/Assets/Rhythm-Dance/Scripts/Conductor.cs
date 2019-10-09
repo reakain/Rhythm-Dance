@@ -53,7 +53,11 @@ namespace RhythmDance
             Record,
             Playback
         }
-        private ConductorState currentState;
+        [SerializeField]
+        public ConductorState currentState { get; private set; }
+
+        public delegate void ConductorStateEvent();
+        public static event ConductorStateEvent ConductorStateChange;
 
         // Beat Play variables
         public AudioSource playerSource; // Player input audio
@@ -71,11 +75,6 @@ namespace RhythmDance
             playerInstrument = InstrumentLibrary.GetInstrumentFromName("Fingered Bass");
         }
 
-        void ChangeInstrument()
-        {
-
-        }
-
         void Start()
         {
             SetConductor();
@@ -87,7 +86,16 @@ namespace RhythmDance
             //Load the AudioSource attached to the Conductor GameObject
             musicSource = GetComponent<AudioSource>();
 
-            currentState = ConductorState.Stop;
+            ChangeState(ConductorState.Stop);
+        }
+
+        void ChangeState(ConductorState state)
+        {
+            currentState = state;
+            if (ConductorStateChange != null)
+            {
+                ConductorStateChange();
+            }
         }
 
         // Update is called once per frame
@@ -101,13 +109,17 @@ namespace RhythmDance
 
             if (note >= 0)
             {
-                playerSource.clip = playerInstrument.Notes[note];
-                playerSource.Play();
+                if (currentState == ConductorState.Play)
+                {
+                    CheckNoteBeat(note);
+                }
                 if (currentState == ConductorState.Record)
                 {
                     songPosition = (float)(AudioSettings.dspTime - dspSongTime);
                     playerSongInput.Add(new PlayerNote() { note = note, position = songPosition });
                 }
+                playerSource.clip = playerInstrument.Notes[note];
+                playerSource.Play();  
             }
             if (currentState == ConductorState.Record && songPosition >= recordStopTime)
             {
@@ -128,33 +140,49 @@ namespace RhythmDance
             }
         }
 
+        void CheckNoteBeat(int note)
+        {
+
+        }
+
         int GetPlayerInput()
         {
             int note = -1; // invalid value to detect when note is pressed
             switch (currentState)
             {
                 case ConductorState.Stop:
-                    if (Input.GetKeyDown("r")) { StartRecord(); }
-                    if (Input.GetKeyDown("space")) { StartSong(); }
+                    if (Input.GetButtonDown(KeysInput.instance.startRecordButton)) { StartRecord(); }
+                    if (Input.GetButtonDown(KeysInput.instance.startSongButton)) { StartSong(); }
                     break;
                 case ConductorState.Play:
-                    if (Input.GetKeyDown("space")) { StopSong(); }
-                    break;
-                case ConductorState.Playback:
-                    if (Input.GetKeyDown("space")) { StopSong(); }
-                    break;
-                case ConductorState.Record:
-                    if (Input.GetKeyDown("space")) { StopRecord(); }
+                    if (Input.GetButtonDown(KeysInput.instance.stopSongButton)) { StopSong(); }
                     else
                     {
-                        if (Input.GetKeyDown("a")) note = 1;  // C
-                        if (Input.GetKeyDown("s")) note = 3;  // D
-                        if (Input.GetKeyDown("d")) note = 5;  // E
-                        if (Input.GetKeyDown("f")) note = 7;  // F
-                        if (Input.GetKeyDown("g")) note = 9;  // G
-                        if (Input.GetKeyDown("h")) note = 11;  // A
-                        if (Input.GetKeyDown("j")) note = 13; // B
-                        if (Input.GetKeyDown("k")) note = 15; // C
+                        if (Input.GetButtonDown(KeysInput.instance.pose1Key))
+                        { note = KeysInput.instance.poseKeyNotes[0]; }
+                        if (Input.GetButtonDown(KeysInput.instance.pose2Key))
+                        { note = KeysInput.instance.poseKeyNotes[1]; }
+                        if (Input.GetButtonDown(KeysInput.instance.pose3Key))
+                        { note = KeysInput.instance.poseKeyNotes[2]; }
+                        if (Input.GetButtonDown(KeysInput.instance.pose4Key))
+                        { note = KeysInput.instance.poseKeyNotes[3]; }
+                    }
+                    break;
+                case ConductorState.Playback:
+                    if (Input.GetButtonDown(KeysInput.instance.stopSongButton)) { StopSong(); }
+                    break;
+                case ConductorState.Record:
+                    if (Input.GetButtonDown(KeysInput.instance.stopRecordButton)) { StopRecord(); }
+                    else
+                    {
+                        if (Input.GetButtonDown(KeysInput.instance.pose1Key))
+                        { note = KeysInput.instance.poseKeyNotes[0]; }
+                        if (Input.GetButtonDown(KeysInput.instance.pose2Key))
+                        { note = KeysInput.instance.poseKeyNotes[1]; }
+                        if (Input.GetButtonDown(KeysInput.instance.pose3Key))
+                        { note = KeysInput.instance.poseKeyNotes[2]; }
+                        if (Input.GetButtonDown(KeysInput.instance.pose4Key))
+                        { note = KeysInput.instance.poseKeyNotes[3]; }
                     }
                     break;
                 default:
@@ -173,7 +201,7 @@ namespace RhythmDance
             //Start the music
             musicSource.Play();
 
-            currentState = ConductorState.Play;
+                ChangeState(ConductorState.Play);
         }
 
         void StopSong()
@@ -185,7 +213,7 @@ namespace RhythmDance
                 playerSource.Stop();
             }
 
-            currentState = ConductorState.Stop;
+                ChangeState(ConductorState.Stop);
         }
 
         void StartRecord()
@@ -194,8 +222,8 @@ namespace RhythmDance
             playerSongInput = new List<PlayerNote>();
 
             StartConducting();
-            
-            currentState = ConductorState.Record;
+
+                ChangeState(ConductorState.Record);
         }
 
         void StopRecord()
@@ -206,7 +234,7 @@ namespace RhythmDance
 
         void StartPlayback()
         {
-            currentState = ConductorState.Playback;
+                ChangeState(ConductorState.Playback);
 
             StartConducting();
 

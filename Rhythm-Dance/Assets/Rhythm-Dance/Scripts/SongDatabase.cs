@@ -46,14 +46,22 @@ namespace RhythmDance
         public string source = "";
         public float offset = 0.0f;
         public string player_instrument = "";
+        public Note[] keys;
         public PlayerBeat[] player_beats;
     }
 
     [Serializable]
     public class PlayerBeat
     {
-        public int note = 0;
+        public int pose;
         public float position = 0.0f;
+    }
+
+    [Serializable]
+    public class Note
+    {
+        public int index = 0;
+        public int move = 0;
     }
     #endregion
 
